@@ -24,10 +24,24 @@ input {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
+    box-sizing: border-box;
 }
 
 button {
     margin-top: 15px;
     width: 100%;
     padding: 10px;
+    cursor: pointer;
+}
+
+#message {
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
 }
