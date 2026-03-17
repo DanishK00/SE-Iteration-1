@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create New Account</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Create New Account</h1>
+
+    <form id="signupForm">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+      <p id="message"></p>
+
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <p class="login-link">
+      Already have an account?
+      <a href="../login/index.html">Log in here</a>
+    </p>
+  </div>
+
+  <script>
+  const form = document.getElementById("signupForm");
+  const password = document.getElementById("password");
+  const confirmPassword = document.getElementById("confirmPassword");
+  const message = document.getElementById("message");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (password.value !== confirmPassword.value) {
+      message.textContent = "Passwords do not match.";
+      message.style.color = "red";
+      return;
+    }
+
+    message.textContent = "Account created successfully.";
+    message.style.color = "green";
+
+    setTimeout(() => {
+      window.location.href = "../wip.html";
+    }, 1000);
+  });
+</script>

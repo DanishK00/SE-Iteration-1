@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+
+.container {
+    width: 320px;
+    margin: 120px auto;
+    padding: 30px;
+    background: white;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+.btn {
+    display: block;
+    margin: 10px 0;
+    padding: 12px;
+    text-decoration: none;
+    color: black;
+    background: #e0e0e0;
+    border: 1px solid #999;
+}
