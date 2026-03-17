@@ -30,28 +30,30 @@
 
     <p class="login-link">
       Already have an account?
-      <a href="#">Log in here</a>
+      <a href="../login/index.html">Log in here</a>
     </p>
   </div>
 
   <script>
-    const form = document.getElementById("signupForm");
-    const password = document.getElementById("password");
-    const confirmPassword = document.getElementById("confirmPassword");
-    const message = document.getElementById("message");
+  const form = document.getElementById("signupForm");
+  const password = document.getElementById("password");
+  const confirmPassword = document.getElementById("confirmPassword");
+  const message = document.getElementById("message");
 
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-      if (password.value !== confirmPassword.value) {
-        message.textContent = "Passwords do not match.";
-        message.style.color = "red";
-        return;
-      }
+    if (password.value !== confirmPassword.value) {
+      message.textContent = "Passwords do not match.";
+      message.style.color = "red";
+      return;
+    }
 
-      message.textContent = "Account created successfully.";
-      message.style.color = "green";
-    });
-  </script>
-</body>
-</html>
+    message.textContent = "Account created successfully.";
+    message.style.color = "green";
+
+    setTimeout(() => {
+      window.location.href = "../wip.html";
+    }, 1000);
+  });
+</script>
