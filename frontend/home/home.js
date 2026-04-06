@@ -6,13 +6,18 @@ function sendMessage() {
     if (message.trim() === "") return;
 
     let chatBox = document.getElementById("chatBox");
-    let msg = document.createElement("p");
-    msg.innerHTML = `<strong>You:</strong> ${message}`;
-    chatBox.appendChild(msg);
 
-    
+    chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+
+    input.value = "";
+
     chatBox.scrollTop = chatBox.scrollHeight;
 }
+
+
+document.getElementById("messageInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") sendMessage();
+});
 
 
 function searchLogs() {
