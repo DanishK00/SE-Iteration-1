@@ -14,7 +14,6 @@ function sendMessage() {
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-
 document.getElementById("messageInput").addEventListener("keypress", function(e) {
     if (e.key === "Enter") sendMessage();
 });
@@ -33,7 +32,10 @@ function searchLogs() {
     }
 }
 
-
 document.getElementById("messageInput").addEventListener("keypress", function(e) {
     if (e.key === "Enter") sendMessage();
+});
+
+document.getElementById("logoutBtn").addEventListener("click", function() {
+    window.location.href = "../login/index.html";
 });

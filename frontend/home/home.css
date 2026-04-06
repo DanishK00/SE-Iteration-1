@@ -112,3 +112,22 @@ body {
 .chat-input button:hover {
     background: #0056b3;
 }
+
+#logoutBtn {
+    position: fixed;  
+    top: 20px;        
+    right: 20px;     
+    padding: 10px 20px;
+    border: none;
+    background-color: #e00606;  
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+    z-index: 1000;     
+}
+
+#logoutBtn:hover {
+    background-color: #831924;  
+}
