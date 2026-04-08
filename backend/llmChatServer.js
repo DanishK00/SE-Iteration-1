@@ -10,7 +10,7 @@ let convId = 1;
 // Call Ollama
 const callOllama = async (message) => {
   const response = await axios.post("http://localhost:11434/api/generate", {
-    model: "gemma3:27b",
+    model: "llama2",
     prompt: message,
     stream: false,
   });
