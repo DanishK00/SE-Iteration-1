@@ -160,7 +160,7 @@ body {
 }
 
 #clearChatBtn {
-    position: fixed;
+    position: fixed; 
     top: 60px; 
     right: 20px;
     padding: 10px 20px;
