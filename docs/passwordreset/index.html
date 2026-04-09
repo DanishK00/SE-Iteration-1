@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forgot Password</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Forgot Password</h2>
+    <form id="forgotForm">
+      <input type="email" id="email" placeholder="Enter your email" required>
+      <button type="submit">Send Reset Link</button>
+    </form>
+    <div id="resetDiv" style="display:none;">
+      <h3>Reset Your Password</h3>
+      <form id="resetForm">
+        <input type="text" id="token" placeholder="Enter token">
+        <input type="password" id="newPassword" placeholder="New Password">
+        <input type="password" id="confirmNewPassword" placeholder="Confirm New Password">
+        <button type="submit">Reset Password</button>
+      </form>
+    </div>
+    <p id="message"></p>
+    <a href="../index.html">Back to Home</a>
+  </div>
+  <script>
+    // Forgot Password Request
+    document.getElementById('forgotForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const res = await fetch('http://localhost:3000/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      const msg = document.getElementById('message');
+      if (res.ok) {
+        const data = await res.json();
+        msg.textContent = `Token (for demo/testing): ${data.token}`;
+        msg.style.color = "green";
+        document.getElementById('resetDiv').style.display = 'block';
+      } else {
+        const data = await res.json();
+        msg.textContent = data.message;
+        msg.style.color = "red";
+      }
+    });
+
+    // Password Reset
+    document.getElementById('resetForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const token = document.getElementById('token').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+      const res = await fetch('http://localhost:3000/api/auth/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, newPassword, confirmNewPassword })
+      });
+      const msg = document.getElementById('message');
+      if (res.ok) {
+        const data = await res.json();
+        msg.textContent = data.message;
+        msg.style.color = "green";
+      } else {
+        const data = await res.json();
+        msg.textContent = data.message;
+        msg.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

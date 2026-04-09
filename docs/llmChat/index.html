@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LLM Chat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Ask the LLM</h2>
+    <form id="chatForm">
+      <input type="text" id="prompt" placeholder="Type your question..." required>
+      <button type="submit">Send</button>
+    </form>
+    <div id="response"></div>
+    <a href="../index.html">Back to Home</a>
+  </div>
+  <script>
+    document.getElementById('chatForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const prompt = document.getElementById('prompt').value;
+      const resBox = document.getElementById('response');
+      resBox.innerHTML = "Loading...";
+      const res = await fetch('http://localhost:4002/api/chat/llm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        resBox.innerHTML = `<b>Response:</b><br>${data.response}`;
+      } else {
+        const data = await res.json();
+        resBox.innerHTML = `Error: ${data.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
