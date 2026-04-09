@@ -43,6 +43,7 @@ app.post("/api/chat/llm", async (req, res) => {
       if (errorOccurred) {
         return res.status(500).json({ message: "Error communicating with LLM service." });
       } else {
+        console.log('Ollama output:', output); // <-- Add this for debugging
         return res.json({ response: output.trim() });
       }
     });
