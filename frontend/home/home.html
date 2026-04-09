@@ -61,17 +61,16 @@ async function sendMessage() {
     chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
-        const response = await fetch("http://localhost:3000/chat", {
+        const response = await fetch("http://localhost:4002/api/chat/llm", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ message: message })
+            body: JSON.stringify({ prompt: message }) // note: property name should be 'prompt'
         });
-
         const data = await response.json();
+        chatBox.innerHTML += `<p><strong>AI:</strong> ${data.response}</p>`;
 
-        chatBox.innerHTML += `<p><strong>AI:</strong> ${data.reply}</p>`;
 
     } catch (error) {
         chatBox.innerHTML += `<p><strong>AI:</strong> Error getting response</p>`;

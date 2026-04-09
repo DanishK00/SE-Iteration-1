@@ -23,7 +23,7 @@ app.post("/api/chat/llm", async (req, res) => {
 
   // Using Ollama: 'ollama run llama2'
   try {
-    const ollama = spawn("ollama", ["run", "llama2"]);
+    const ollama = spawn('ollama', ['run', 'llama3.2']);
     let output = "";
     let errorOccurred = false;
 
