@@ -7,5 +7,5 @@ Feature: Pause and resume AI generation
 
   Scenario: Successfully resumed AI generation
     Given the user is returning to a previously saved conversation with the AI partway through generating content
-    When the user presses a button to resume the AI's generation of content
+    When the user makes an input to resume the AI's generation of content
     Then the AI should resume its generation of content
