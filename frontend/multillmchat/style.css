@@ -1,0 +1,237 @@
+/* -------------------------------------------------------
+   multiLLMChat.css — matches existing TLEB site style
+   (Arial, #f4f4f4 bg, white panels, #ccc borders)
+------------------------------------------------------- */
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---- Layout (mirrors home.html) ---- */
+.page-wrapper {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* ---- Sidebar ---- */
+.side-search {
+  width: 220px;
+  min-height: 100vh;
+  background: #fff;
+  border-right: 1px solid #ccc;
+  padding: 20px 14px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.side-search input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+
+.logs-title {
+  font-size: 14px;
+  margin: 0 0 10px 0;
+  color: #555;
+}
+
+.old-log-item {
+  padding: 8px 6px;
+  font-size: 12px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  color: #333;
+}
+
+.old-log-item:hover {
+  background: #f0f0f0;
+}
+
+/* ---- Top-right buttons (same as home.html) ---- */
+#logoutBtn,
+#clearBtn {
+  position: fixed;
+  top: 16px;
+  padding: 8px 16px;
+  background: #e0e0e0;
+  border: 1px solid #999;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  z-index: 100;
+}
+
+#logoutBtn { right: 16px; }
+#clearBtn  { right: 100px; }
+
+/* ---- Center content ---- */
+.center-container {
+  flex: 1;
+  padding: 30px 30px 30px 30px;
+  max-width: 1100px;
+  box-sizing: border-box;
+}
+
+.title-box {
+  margin-bottom: 24px;
+}
+
+.title-box h1 {
+  margin: 0 0 4px 0;
+  font-size: 28px;
+}
+
+.title-box p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+/* ---- Model selector ---- */
+.model-selector {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  display: inline-block;
+  min-width: 300px;
+}
+
+.selector-label {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 20px;
+}
+
+.checkbox-group label {
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---- Prompt bar ---- */
+.prompt-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.prompt-bar input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+}
+
+.prompt-bar button {
+  padding: 10px 20px;
+  background: #e0e0e0;
+  border: 1px solid #999;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.prompt-bar button:hover {
+  background: #d0d0d0;
+}
+
+.prompt-bar button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- Comparison grid ---- */
+.comparison-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.comparison-row {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 16px;
+}
+
+.prompt-label {
+  font-size: 14px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+/* Grid of response columns — width set inline via JS */
+.response-columns {
+  display: grid;
+  gap: 12px;
+}
+
+.response-col {
+  border: 1px solid #ddd;
+  background: #fafafa;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.model-tag {
+  font-size: 12px;
+  font-weight: bold;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #ddd;
+}
+
+.response-body {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #333;
+  white-space: pre-wrap;
+  min-height: 60px;
+}
+
+.response-body.loading {
+  color: #aaa;
+  font-style: italic;
+}
+
+.response-body.error {
+  color: #c0392b;
+}
+
+/* ---- Nav ---- */
+.nav-links {
+  margin-top: 24px;
+}
+
+.nav-links a {
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
