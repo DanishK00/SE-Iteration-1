@@ -10,14 +10,12 @@
 
   <div class="page-wrapper">
 
-    <!-- Sidebar (matches home.html layout) -->
     <div class="side-search">
       <input id="searchInput" type="text" placeholder="Search old logs?" oninput="searchLogs()" />
       <h3 class="logs-title">Previous Chats</h3>
       <div id="oldLogsContainer"></div>
     </div>
 
-    <!-- Main content -->
     <div class="center-container">
 
       <div class="title-box">
@@ -25,7 +23,6 @@
         <p>Compare responses from multiple LLMs at once</p>
       </div>
 
-      <!-- Model selector -->
       <div class="model-selector">
         <p class="selector-label">Select models to query:</p>
         <div class="checkbox-group">
@@ -35,30 +32,25 @@
         </div>
       </div>
 
-      <!-- Prompt input -->
       <div class="prompt-bar">
         <input id="promptInput" type="text" placeholder="Type a message to send to all selected models..." />
         <button id="sendBtn" onclick="sendToAll()">Send</button>
       </div>
 
-      <!-- Comparison grid — columns appear dynamically -->
       <div id="comparisonGrid" class="comparison-grid"></div>
 
-      <!-- Back nav -->
       <div class="nav-links">
         <a href="../home/home.html">← Back to Home</a>
       </div>
 
     </div>
 
-    <!-- Top-right buttons matching home.html -->
     <button id="logoutBtn">Logout</button>
     <button id="clearBtn">Clear</button>
 
   </div>
 
   <script>
-    // --- Auth / nav ---
     document.getElementById("logoutBtn").addEventListener("click", () => {
       window.location.href = "../login/index.html";
     });
@@ -69,13 +61,26 @@
       if (e.key === "Enter") sendToAll();
     });
 
-    // --- Get selected models ---
     function getSelectedModels() {
       return Array.from(document.querySelectorAll('input[name="model"]:checked'))
         .map(cb => cb.value);
     }
 
-    // --- Send prompt to all selected models ---
+    // Feature 3: Copy response text to clipboard
+    function copyToClipboard(text, btn) {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = "Copied!";
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.textContent = "Copy";
+          btn.disabled = false;
+        }, 2000);
+      }).catch(() => {
+        btn.textContent = "Failed";
+        setTimeout(() => { btn.textContent = "Copy"; }, 2000);
+      });
+    }
+
     async function sendToAll() {
       const prompt = document.getElementById("promptInput").value.trim();
       if (!prompt) return;
@@ -91,88 +96,97 @@
 
       const grid = document.getElementById("comparisonGrid");
 
-      // Build a row: prompt header + one column per model
       const row = document.createElement("div");
       row.className = "comparison-row";
 
-      // Prompt label spanning the row
       const promptLabel = document.createElement("div");
       promptLabel.className = "prompt-label";
       promptLabel.innerHTML = `<strong>You:</strong> ${escapeHtml(prompt)}`;
       row.appendChild(promptLabel);
 
-      // Response columns container
       const cols = document.createElement("div");
       cols.className = "response-columns";
       cols.style.gridTemplateColumns = `repeat(${models.length}, 1fr)`;
 
-      // Create a column per model, each starting with a loading state
       const columnEls = {};
+      const timerEls = {};
+
       models.forEach(model => {
         const col = document.createElement("div");
         col.className = "response-col";
         col.innerHTML = `
-          <div class="model-tag">${model}</div>
-          <div class="response-body loading" id="col-${model}-${Date.now()}">Waiting...</div>
+          <div class="model-header">
+            <span class="model-tag">${model}</span>
+            <span class="response-timer" id="timer-${model}">⏱ waiting...</span>
+          </div>
+          <div class="response-body loading" id="body-${model}">Waiting...</div>
+          <button class="copy-btn" id="copy-${model}" style="display:none"
+            onclick="copyToClipboard(document.getElementById('body-${model}').textContent, this)">
+            Copy
+          </button>
         `;
         cols.appendChild(col);
-        columnEls[model] = col.querySelector(".response-body");
+        columnEls[model] = col.querySelector(`#body-${model}`);
+        timerEls[model]  = col.querySelector(`#timer-${model}`);
       });
 
       row.appendChild(cols);
       grid.appendChild(row);
       grid.scrollTop = grid.scrollHeight;
 
-      // Fire all requests simultaneously
-      const requests = models.map(model =>
-        fetch("http://localhost:4003/api/chat/multi", {
+      const requests = models.map(model => {
+        const startTime = Date.now(); // Feature 1: start timer
+
+        return fetch("http://localhost:4003/api/chat/multi", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ prompt, models: [model] })
         })
         .then(res => res.json())
         .then(data => {
-          const result = data.results && data.results[0];
-          const el = columnEls[model];
-          el.classList.remove("loading");
+          const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+          const result  = data.results && data.results[0];
+          const bodyEl  = columnEls[model];
+          const timerEl = timerEls[model];
+          const copyBtn = document.getElementById(`copy-${model}`);
+
+          bodyEl.classList.remove("loading");
+          timerEl.textContent = `⏱ ${elapsed}s`; // Feature 1: show elapsed time
+
           if (result && result.response) {
-            el.textContent = result.response;
+            bodyEl.textContent = result.response;
+            copyBtn.style.display = "inline-block"; // Feature 3: reveal copy button
           } else {
-            el.classList.add("error");
-            el.textContent = result?.error || "No response received.";
+            bodyEl.classList.add("error");
+            bodyEl.textContent = result?.error || "No response received.";
           }
         })
-        .catch(err => {
-          const el = columnEls[model];
-          el.classList.remove("loading");
-          el.classList.add("error");
-          el.textContent = "Error: could not reach server.";
-        })
-      );
+        .catch(() => {
+          const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+          columnEls[model].classList.remove("loading");
+          columnEls[model].classList.add("error");
+          columnEls[model].textContent = "Error: could not reach server.";
+          timerEls[model].textContent  = `⏱ ${elapsed}s`;
+        });
+      });
 
       await Promise.all(requests);
       document.getElementById("sendBtn").disabled = false;
       saveSession();
     }
 
-    // --- Search highlights (same as home.html) ---
     window.searchLogs = function () {
       const input = document.getElementById("searchInput").value.toLowerCase();
       document.querySelectorAll(".response-body, .prompt-label").forEach(el => {
         el.style.backgroundColor = (input && el.textContent.toLowerCase().includes(input))
-          ? "#ffff99"
-          : "";
+          ? "#ffff99" : "";
       });
     };
 
-    // --- Session persistence (same pattern as home.html) ---
     function saveSession() {
       const grid = document.getElementById("comparisonGrid");
       let sessions = JSON.parse(localStorage.getItem("multiSessions") || "[]");
-      sessions.push({
-        timestamp: new Date().toLocaleString(),
-        content: grid.innerHTML
-      });
+      sessions.push({ timestamp: new Date().toLocaleString(), content: grid.innerHTML });
       localStorage.setItem("multiSessions", JSON.stringify(sessions));
       renderOldLogs();
     }
@@ -181,21 +195,18 @@
       const container = document.getElementById("oldLogsContainer");
       if (!container) return;
       container.innerHTML = "";
-      const sessions = JSON.parse(localStorage.getItem("multiSessions") || "[]");
-      sessions.forEach((session, index) => {
+      JSON.parse(localStorage.getItem("multiSessions") || "[]").forEach((s, i) => {
         const div = document.createElement("div");
         div.classList.add("old-log-item");
-        div.textContent = `Session ${index + 1} - ${session.timestamp}`;
-        div.onclick = () => loadSession(index);
+        div.textContent = `Session ${i + 1} - ${s.timestamp}`;
+        div.onclick = () => loadSession(i);
         container.appendChild(div);
       });
     }
 
     function loadSession(index) {
       const sessions = JSON.parse(localStorage.getItem("multiSessions") || "[]");
-      if (sessions[index]) {
-        document.getElementById("comparisonGrid").innerHTML = sessions[index].content;
-      }
+      if (sessions[index]) document.getElementById("comparisonGrid").innerHTML = sessions[index].content;
     }
 
     function clearAll() {
@@ -204,12 +215,10 @@
       renderOldLogs();
     }
 
-    // --- Escape HTML to prevent XSS ---
     function escapeHtml(text) {
       return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    // Init
     renderOldLogs();
   </script>
 </body>
