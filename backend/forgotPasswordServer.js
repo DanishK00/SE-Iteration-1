@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-// --- MOCK DATABASE ---
+
 let users = [
   {
     id: 1,
@@ -17,14 +17,12 @@ let users = [
   }
 ];
 
-// --- HELPER FUNCTIONS ---
 
 // Hash password with bcrypt
 const hashPassword = async (password) => {
   return await bcrypt.hash(password, 10);
 };
 
-// --- ROUTES ---
 
 app.post("/api/auth/forgot-password", (req, res) => {
   const { email } = req.body;

@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
+
 
 const app = express();
-const path = require("path");
 
 app.use(express.static(path.join(__dirname, "../docs")));
 app.use(express.json());
@@ -26,7 +27,7 @@ app.post("/chat", async (req, res) => {
   const userMessage = req.body.message;
 
   try {
-    const response = await fetch("http://localhost:11434/api/generate", {   //ollana
+    const response = await fetch("http://localhost:11434/api/generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -48,10 +49,53 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+app.post("/api/llm/query", async (req, res) => {
+  const { prompt, models } = req.body;
+
+  if (!prompt || !models) {
+    return res.status(400).json({ error: "Invalid request" });
+  }
+
+  const results = await Promise.all(models.map(async (model) => {
+    try {
+      const response = await fetch("http://localhost:11434/api/generate", { //multi llm
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: model,
+          prompt: prompt,
+          stream: false
+        })
+      });
+
+      const data = await response.json();
+
+      return {
+        modelName: model,
+        status: "success",
+        response: data.response
+      };
+
+    } catch (error) {
+      return {
+        modelName: model,
+        status: "failed",
+        error: error.message
+      };
+    }
+  }));
+
+  res.json(results);
 });
+
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../docs/index.html"));
+});
+
+
+app.listen(3000, () => {
+  console.log("Server running on http://localhost:3000");
 });

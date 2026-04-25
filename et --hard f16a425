@@ -1,0 +1,35 @@
+[33mcf44617[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32miiterationkiro[m[33m, [m[1;31morigin/it2f[m[33m, [m[1;31morigin/iiterationkiro[m[33m)[m 1 line added
+[33mc331d1b[m update home page
+[33mdac044f[m Password reset and chat llm
+[33mf16a425[m[33m ([m[1;32mit2f[m[33m)[m kiro code
+[33m803d859[m[33m ([m[1;32miteration2f[m[33m)[m Updated home page, chat, search logs, and layout fixes
+[33mcea3e56[m Added home page UI, chat, search logs, and logout feature
+[33m31268a7[m[33m ([m[1;32mmain[m[33m)[m Added home page with chat feature and old logs and fixed send mesage issue and added logout button
+[33m9de7b0e[m Added home page with chat feature and old logs and fixed send mesage issue
+[33m3ada08d[m Added home page with chat feature and old logs and fixed send mesage issue
+[33me3f76cd[m Added home page with chat feature and old logs
+[33m4e3f153[m Merge branch 'main' of github.com:DanishK00/SE-Iteration-1
+[33mf85c43e[m Added home page with chat and search logs
+[33m4ea9a37[m Add Jasmine unit tests for forgot password functionality
+[33m2beb19c[m Initialize package.json and add forgot password functionality
+[33m928a34a[m Added home page with chat
+[33m6fb90a0[m Added home page with chat
+[33maac373e[m Added home page with chat feature
+[33m135d8f1[m Add Cucumber and Jasmine test files~
+[33m45fc792[m Change back to home text to log out
+[33mcff9909[m Merge branch 'issue-2-landing-page-clean'
+[33m2e43b2b[m Add docs folder for GitHub Pages
+[33mf2cf5f3[m Merge pull request #7 from DanishK00/issue-2-landing-page-clean
+[33mf298f62[m[33m ([m[1;31morigin/issue-2-landing-page-clean[m[33m)[m Add landing page and update login/signup flow
+[33me64a299[m Merge pull request #6 from DanishK00/issue-2-login-page
+[33m21ab866[m Add login page placeholder
+[33m459f66b[m Add alternate backend signup server placeholder
+[33ma89fdc9[m Merge pull request #5 from DanishK00/issue-2-signup-backend
+[33m3e1e77f[m[33m ([m[1;31morigin/issue-2-signup-backend[m[33m)[m Add backend signup route placeholder
+[33md55b0c8[m Merge pull request #4 from DanishK00/issue-2-signup-improvements
+[33m3c1db90[m[33m ([m[1;31morigin/issue-2-signup-improvements[m[33m)[m Improve signup page validation
+[33m6c17133[m Merge pull request #3 from DanishK00/issue-2-account-page
+[33ma75a0cc[m[33m ([m[1;31morigin/issue-2-account-page[m[33m)[m Add basic signup page
+[33mbe9f147[m Merge pull request #1 from DanishK00/account-creation
+[33m63b7d3d[m[33m ([m[1;31morigin/account-creation[m[33m)[m Set up initial project structure
+[33m377479c[m Initial commit

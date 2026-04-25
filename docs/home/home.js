@@ -1,4 +1,3 @@
-
 async function sendMessage() {
     let input = document.getElementById("messageInput");
     let message = input.value;
@@ -7,25 +6,28 @@ async function sendMessage() {
 
     let chatBox = document.getElementById("chatBox");
 
-
+    // Show user message
     chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
 
     input.value = "";
     chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
-        const response = await fetch("http://localhost:3000/chat", {
+     
+        const response = await fetch("http://localhost:3000/api/llm/query", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ message: message })
+            body: JSON.stringify({
+                prompt: message,
+                models: ["openai", "ollama", "claude"]
+            })
         });
 
-        const data = await response.json();
+        const results = await response.json();
 
- 
-        chatBox.innerHTML += `<p><strong>AI:</strong> ${data.reply}</p>`;
+        displayResponses(results);
 
     } catch (error) {
         chatBox.innerHTML += `<p><strong>AI:</strong> Error getting response</p>`;
@@ -35,6 +37,29 @@ async function sendMessage() {
     saveChatToStorage();
     saveCurrentSession();
     chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function displayResponses(results) {
+    const container = document.getElementById("responseContainer");
+    container.innerHTML = "";
+
+    results.forEach(result => {
+        const card = document.createElement("div");
+        card.classList.add("llm-card");
+
+        card.innerHTML = `
+            <div class="llm-title">${result.modelName}</div>
+            <div>${result.status === "success" ? result.response : "Error"}</div>
+            <button class="use-btn">Use this</button>
+        `;
+
+        // 🔥 CLICK TO INSERT INTO CHAT
+        card.querySelector(".use-btn").addEventListener("click", () => {
+            insertIntoChat(result.response);
+        });
+
+        container.appendChild(card);
+    });
 }
 
 document.getElementById("messageInput").addEventListener("keypress", function(e) {
@@ -119,12 +144,23 @@ function clearChat() {
 
     chatBox.innerHTML = `<p><strong>AI:</strong> Welcome. How can I help you?</p>`;
 
-    localStorage.removeItem("chatHistory");
+    // 🔥 ALSO CLEAR MULTI-LLM RESULTS
+    const container = document.getElementById("responseContainer");
+    if (container) container.innerHTML = "";
 
+    localStorage.removeItem("chatHistory");
     localStorage.removeItem("chatSessions");
 }
 
-document.getElementById("clearChatBtn").addEventListener("click", clearChat); 
+function insertIntoChat(text) {
+    const chatBox = document.getElementById("chatBox");
+
+    chatBox.innerHTML += `<p><strong>AI (selected):</strong> ${text}</p>`;
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+document.getElementById("clearChatBtn").addEventListener("click", clearChat);
 
 loadChatFromStorage();
 renderOldLogs();

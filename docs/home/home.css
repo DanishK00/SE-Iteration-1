@@ -10,16 +10,17 @@ body {
 }
 
 .side-search {
-    position: fixed; 
+    position: fixed;
     top: 0;
     left: 0;
-    height: 100vh; 
+    height: 100vh;
     display: flex;
     flex-direction: column;
+    gap: 10px;
     width: 220px;
-    padding: 20px 10px; 
-    border-right: 2px solid #ccc; 
-    background-color: #f9f9f9; 
+    padding: 20px 10px;
+    border-right: 2px solid #ccc;
+    background-color: #f9f9f9;
     box-sizing: border-box;
 }
 
@@ -32,26 +33,6 @@ body {
     box-sizing: border-box;
 }
 
-.side-search {
-    position: fixed; 
-    top: 0;
-    left: 0;
-    height: 100vh; 
-    display: flex;
-    flex-direction: column;
-    gap: 10px; 
-    width: 220px;
-    padding: 20px 10px; 
-    border-right: 2px solid #ccc; 
-    background-color: #f9f9f9; 
-    box-sizing: border-box;
-}
-
-.side-search button:hover {
-    background: #0056b3;
-}
-
-
 .center-container {
     display: flex;
     flex-direction: column;
@@ -60,7 +41,6 @@ body {
     text-align: center;
 }
 
-
 .title-box {
     border: 2px solid #000;
     padding: 20px 40px;
@@ -68,17 +48,15 @@ body {
     background-color: white;
 }
 
-
 .chat-container {
-    width: 500px;
+    width: 900px;          
+    max-width: 90%;
     background: #eee;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 10px;
-    margin-top: 50px; 
-    
+    margin-top: 50px;
 }
-
 
 .chat-box {
     height: 200px;
@@ -88,6 +66,34 @@ body {
     background: white;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+
+#responseContainer {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.llm-card {
+    flex: 1;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: left;
+    min-height: 120px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+.llm-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+    color: #333;
 }
 
 
@@ -119,33 +125,51 @@ body {
 }
 
 #logoutBtn {
-    position: fixed;  
-    top: 20px;        
-    right: 20px;     
+    position: fixed;
+    top: 20px;
+    right: 20px;
     padding: 10px 20px;
     border: none;
-    background-color: #e00606;  
+    background-color: #e00606;
     color: white;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
     transition: background 0.3s ease;
-    z-index: 1000;     
+    z-index: 1000;
 }
 
 #logoutBtn:hover {
-    background-color: #831924;  
+    background-color: #831924;
 }
 
-#oldLogsContainer {
-    margin-top: 15px;         
-    width: 100%;              
-    max-height: 300px;         
-    overflow-y: auto;
 
+#clearChatBtn {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    z-index: 1000;
+}
+
+#clearChatBtn:hover {
+    background-color: #5a6268;
+}
+
+
+#oldLogsContainer {
+    margin-top: 15px;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
     border-top: 1px solid #ccc;
     padding-top: 10px;
-
     box-sizing: border-box;
 }
 
@@ -158,21 +182,11 @@ body {
 .old-log-item:hover {
     background-color: #e0e0e0;
 }
-
-#clearChatBtn {
-    position: fixed;
-    top: 60px; 
-    right: 20px;
-    padding: 10px 20px;
-    border: none;
-    background-color: #6c757d; 
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    z-index: 1000;
+.llm-card {
+    transition: 0.2s ease;
 }
 
-#clearChatBtn:hover {
-    background-color: #5a6268;
+.llm-card:hover {
+    transform: scale(1.02);
+    background: #f0f0f0;
 }
