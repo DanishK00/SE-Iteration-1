@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>TLEB Sign Up</title>
+
+  <link rel="stylesheet" href="auth.css" />
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="logo-circle">T</div>
+
+      <h1>Create Account</h1>
+      <p class="subtitle">Make an account before using the TLEB AI dashboard.</p>
+
+      <form id="signupForm">
+        <div class="input-group">
+          <label for="signupUsername">Username</label>
+          <input
+            type="text"
+            id="signupUsername"
+            placeholder="Choose a username"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="signupPassword">Password</label>
+          <input
+            type="password"
+            id="signupPassword"
+            placeholder="Create a password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="main-btn">Sign Up</button>
+      </form>
+
+      <p id="signupMessage" class="message"></p>
+
+      <p class="switch-text">
+        Already have an account?
+        <a href="login.html">Log in</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="signup.js"></script>
+</body>
+</html>

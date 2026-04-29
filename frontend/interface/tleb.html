@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>TLEB Dashboard</title>
+
+  <link rel="stylesheet" href="tleb.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <h2>Previous Chats</h2>
+        <p>Your saved sessions</p>
+
+        <div class="search-row">
+          <input type="text" id="searchInput" placeholder="Search old logs..." />
+          <button id="searchBtn">Search</button>
+        </div>
+
+        <button id="newChatBtn" class="side-btn">+ New Chat</button>
+      </div>
+
+      <div id="chatList" class="chat-list">
+        <p class="empty-text">No chats yet</p>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <nav class="top-bar">
+        <div>
+          <h1>TLEB</h1>
+          <p id="welcomeText">Welcome to your dashboard</p>
+        </div>
+
+        <div class="top-actions">
+          <button id="darkModeBtn">Dark Mode</button>
+          <button id="clearChatBtn">Clear Chat History</button>
+          <button id="logoutBtn">Log Out</button>
+        </div>
+      </nav>
+
+      <section class="chat-card">
+        <div class="chat-header">
+          <div>
+            <h2>AI Chat</h2>
+            <p>Connected to your local Ollama backend.</p>
+          </div>
+
+          <span id="statusBadge">Ready</span>
+        </div>
+
+        <div id="chatBox" class="chat-box">
+          <div class="message-row ai">
+            <div class="bubble">
+              Welcome. How can I help you?
+            </div>
+          </div>
+        </div>
+
+        <div class="input-area">
+          <input
+            type="text"
+            id="messageInput"
+            placeholder="Type a message..."
+            autocomplete="off"
+          />
+
+          <button id="sendBtn">Send</button>
+          <button id="stopBtn" disabled>Stop</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="tleb.js"></script>
+</body>
+</html>
