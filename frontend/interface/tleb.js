@@ -1,4 +1,4 @@
-console.log("NEW TLEB JS LOADED - OLLAMA VERSION");
+console.log("NEW TLEB JS LOADED - OLLAMA MODEL SELECTION VERSION");
 
 const loggedInUser = localStorage.getItem("tlebLoggedInUser");
 
@@ -19,6 +19,7 @@ const chatList = document.getElementById("chatList");
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
 const statusBadge = document.getElementById("statusBadge");
+const modelSelect = document.getElementById("modelSelect");
 
 let typingInterval = null;
 let currentChatId = localStorage.getItem("tlebCurrentChatId");
@@ -55,7 +56,7 @@ clearChatBtn.addEventListener("click", function () {
   localStorage.setItem("tlebCurrentChatId", currentChatId);
 
   clearChatBox();
-  addMessageToBox("ai", "Chat history cleared. How can I help you now?");
+  addMessageToBox("ai", "Chat history cleared. Choose a backend LLM and ask me something.");
   saveCurrentVisibleChat();
   renderChatList();
 });
@@ -85,7 +86,7 @@ newChatBtn.addEventListener("click", function () {
   localStorage.setItem("tlebCurrentChatId", currentChatId);
 
   clearChatBox();
-  addMessageToBox("ai", "New chat started. What do you want to ask?");
+  addMessageToBox("ai", "New chat started. Choose a backend LLM and ask me something.");
   saveCurrentVisibleChat();
   renderChatList();
 });
@@ -96,6 +97,13 @@ searchBtn.addEventListener("click", function () {
 
 searchInput.addEventListener("input", function () {
   renderChatList(searchInput.value.trim());
+});
+
+modelSelect.addEventListener("change", function () {
+  const selectedLabel = modelSelect.options[modelSelect.selectedIndex].textContent;
+  addMessageToBox("ai", `Backend LLM switched to: ${selectedLabel}`);
+  saveCurrentVisibleChat();
+  renderChatList();
 });
 
 function sendMessage() {
@@ -119,9 +127,18 @@ function sendMessage() {
 }
 
 async function getRealAiResponse(userText) {
+  const selectedModel = modelSelect.value;
+  const selectedLabel = modelSelect.options[modelSelect.selectedIndex].textContent;
+
   statusBadge.textContent = "Thinking...";
   sendBtn.disabled = true;
   stopBtn.disabled = false;
+
+  console.log("Sending to backend:", {
+    message: userText,
+    model: selectedModel,
+    label: selectedLabel
+  });
 
   try {
     const response = await fetch("http://localhost:3000/api/chat", {
@@ -130,7 +147,8 @@ async function getRealAiResponse(userText) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        message: userText
+        message: userText,
+        model: selectedModel
       })
     });
 
@@ -141,7 +159,7 @@ async function getRealAiResponse(userText) {
     } else if (data.error) {
       typeAiResponse("Error: " + data.error);
     } else {
-      typeAiResponse("Sorry, I could not get a response from Ollama.");
+      typeAiResponse("Sorry, I could not get a response from the selected model.");
     }
   } catch (error) {
     console.error("Frontend fetch error:", error);
@@ -207,6 +225,7 @@ function stopGeneratingIfNeeded() {
 
   sendBtn.disabled = false;
   stopBtn.disabled = true;
+  statusBadge.textContent = "Ready";
 }
 
 function finishGenerating() {
@@ -256,7 +275,7 @@ function createNewChat() {
     messages: [
       {
         sender: "ai",
-        text: "Welcome. How can I help you?"
+        text: "Welcome. Choose a backend LLM and ask me something."
       }
     ],
     createdAt: new Date().toLocaleString()
