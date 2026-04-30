@@ -315,3 +315,55 @@ body.dark .chat-item {
         max-width: 90%;
     }
 }
+
+.model-picker {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+    .model-picker label {
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .model-picker select {
+        padding: 9px 12px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.75);
+        color: #111827;
+        outline: none;
+    }
+
+body.dark .model-picker select {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+}
+
+.model-picker select {
+    padding: 9px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.75);
+    color: #111827;
+    outline: none;
+}
+
+    .model-picker select option {
+        background: white;
+        color: #111827;
+    }
+
+body.dark .model-picker select {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+    body.dark .model-picker select option {
+        background: #111827;
+        color: white;
+    }

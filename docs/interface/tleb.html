@@ -47,6 +47,18 @@
           <div>
             <h2>AI Chat</h2>
             <p>Connected to your local Ollama backend.</p>
+
+            <div class="model-picker">
+              <label for="modelSelect">Backend LLM:</label>
+
+              <select id="modelSelect">
+                <option value="phi3">Local Small - phi3</option>
+                <option value="mistral">Local - mistral</option>
+                <option value="gpt-oss">ChatGPT/OpenAI Style - gpt-oss</option>
+                <option value="gemini-3-flash-preview">Gemini - gemini-3-flash-preview</option>
+                <option value="gpt-oss">Claude Code Compatible - gpt-oss</option>
+              </select>
+            </div>
           </div>
 
           <span id="statusBadge">Ready</span>
@@ -55,7 +67,7 @@
         <div id="chatBox" class="chat-box">
           <div class="message-row ai">
             <div class="bubble">
-              Welcome. How can I help you?
+              Welcome. Choose a backend LLM and ask me something.
             </div>
           </div>
         </div>
